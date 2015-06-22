@@ -25,14 +25,6 @@ var learnSD = learnSD || {};
 
     iconFeature.highlight = highlight;
 
-    // // $('#' + highlight).data('icon', iconFeature);
-    // $('#' + highlight).hover(function(evt) {
-    //   highlight_icon(iconFeature);
-    // },
-    //   function(evt) {
-    //     unhighlight_icon(iconFeature)
-    // })
-    //$(this).data('ci')
     // Create Pin styling
     iconFeature.setStyle(
       new ol.style.Style({
