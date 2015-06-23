@@ -3,7 +3,7 @@ var learnSD = learnSD || {};
 (function() {
   var mapHandler = {
     initialize: function initialize() {
-      this.iconLocations = []
+      this.iconLocations = {}
 
       this.vectorSource = new ol.source.Vector({
       });
@@ -28,7 +28,7 @@ var learnSD = learnSD || {};
 
     redraw: function redraw() {
       var view = this.map.getView()
-      var extent = ol.extent.boundingExtent(this.iconLocations)
+      var extent = ol.extent.boundingExtent(Object.keys(this.iconLocations))
       var size = this.map.getSize()
       view.fitExtent(extent, size)
       // If only one coordinate then binding map on that one point will produce
@@ -39,9 +39,15 @@ var learnSD = learnSD || {};
       }
     },
 
+    removePin: function removePin(pin) {
+      delete this.iconLocations[pin.getGeometry().getCoordinates()]
+      this.vectorSource.removeFeature(pin)
+    },
+
     addPin: function addPin(attributes) {
-      this.addPinNoRedraw(attributes)
+      var result = this.addPinNoRedraw(attributes)
       this.redraw()
+      return result
     },
 
     addPinNoRedraw: function addPinNoRedraw(attributes) {
@@ -55,7 +61,7 @@ var learnSD = learnSD || {};
 
 
       var iconLocation = ol.proj.transform([lon, lat], 'EPSG:4326', 'EPSG:3857')
-      this.iconLocations.push(iconLocation)
+      this.iconLocations[iconLocation] = null
 
       var iconFeature = new ol.Feature({
         geometry: new ol.geom.Point(iconLocation),
@@ -74,6 +80,8 @@ var learnSD = learnSD || {};
         })
       )
       this.vectorSource.addFeature(iconFeature);
+
+      return iconFeature;
     }
   }
 

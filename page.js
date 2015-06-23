@@ -10,7 +10,7 @@ $(function() {
 
   function displayPin(addr, data, panel) {
     var coords = [Number(data.lon), Number(data.lat)]
-    map.addPin({
+    return map.addPin({
       coords: coords
     })
   }
@@ -20,7 +20,11 @@ $(function() {
     panel.find('.panel-body').html(addr)
     panel.data('data', data)
     addrDiv.append(panel)
-    displayPin(addr, data, panel)
+    var pin = displayPin(addr, data, panel)
+    addrDiv.find('.btn').click(function deletePin() {
+      map.removePin(pin)
+      panel.remove()
+    })
   }
 
   function handleGeocodeError(jqxhr, msg, err) {
