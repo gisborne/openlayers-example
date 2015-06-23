@@ -104,12 +104,10 @@ window.RentMyThing.drawMap = function drawMap (mapAttributesPlus) {
        center: iconLocations[0],          // ??? Do i need a centering point at this point.
         zoom: 12
       }),
-      controls: ol.control.defaults({
-        attributionOptions: {
-          collapsible: false
-        }}).extend([
-          new ol.control.ScaleLine()
-        ])
+      controls: ol.control.defaults()
+        // .extend([
+        //   new ol.control.ScaleLine()
+        // ])
     });
 
     // Bound the map if multiple points

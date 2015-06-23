@@ -5,21 +5,39 @@ $(function() {
   var addrDiv = $('#addresses')
   var addrForm = $('#address-form')
   var geo = learnSD.geocodeSerialized
+  var map = learnSD.initMap(document.getElementById('map'))
+  learnSD.map = map
 
-  function displayMappedAddress(addr, coords) {
-    var panel = addrTemplate.clone()
-    $(panel).find('.panel-body').html(addr)
+  function displayPin(addr, data, panel) {
+    var coords = [Number(data.lon), Number(data.lat)]
+    map.addPin({
+      coords: coords
+    })
+  }
+
+  function displayMappedAddress(addr, data) {
+    var panel = $(addrTemplate.clone())
+    panel.find('.panel-body').html(addr)
+    panel.data('data', data)
     addrDiv.append(panel)
+    displayPin(addr, data, panel)
   }
 
   function handleGeocodeError(jqxhr, msg, err) {
     alert(msg + err)
   }
 
+  function prettify(addr) {
+    var parts = addr.split(', ')
+    var rest = parts.slice(1)
+    rest[0] = parts[0] + ' ' + rest[0]
+    return rest.join('<br>')
+  }
+
   function handleGeoCoded(data) {
     var result = data[0]
-    var name = result.display_name
-    displayMappedAddress(name)
+    var addr = prettify(result.display_name)
+    displayMappedAddress(addr, result)
   }
 
   function mapAddress() {

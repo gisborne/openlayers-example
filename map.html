@@ -4,13 +4,6 @@
   <meta charset="utf-8">
   <title>Map!</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.6.0/ol.css" media="screen" title="no title" charset="utf-8">
-  <style>
-  .map {
-    height: 400px;
-    width: 100%;
-  }
-  </style>
-
   <script src="http://code.jquery.com/jquery-2.1.4.min.js" charset="utf-8"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.6.0/ol-debug.js" charset="utf-8"></script>
   <script src="map.js"></script>
@@ -20,45 +13,52 @@
   </script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <link rel="stylesheet" href="map.css">
+  <style media="screen">
+    #map {
+      min-width: 300px;
+      min-height: 200px;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
     <div class="row">
       <div class="row col-md-6">
         <div class="row" id="addresses"></div>
-        <div class="row">
-          <div class="col-md-6">
-            <form action="#" class="input-group" id="address-form">
-              <label>Street<input type="text" name="street" class="form-control"></label>
-              <label>City<input type="text" name="city" class="form-control"></label>
-              <label>State<input type="text" name="state" length="2" class="form-control"></label>
-              <label>Zip<input type="text" name="postalcode" class="form-control"></label>
-              <input type="hidden" name="country" value="US">
-              <div class="form-group">
-                <button type="button" class="btn btn-default" aria-label="Map Address" id="map-address">
-                  <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
       </div>
       <div class="col-md-6">
-        <div class="map">
+        <div id="map">
           <div class="popup" data-trigger="hover" data-toggle="popover" data-original-title="" title="" data-placement=""></div>
-        </div>
+        </div>        
       </div>
-    <div class="hidden">
-      <div class="address">
-        <div class="panel panel-default">
-          <div class="panel-body">
-
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <form action="#" class="input-group" id="address-form">
+          <label>Street<input type="text" name="street" class="form-control"></label>
+          <label>City<input type="text" name="city" class="form-control"></label>
+          <label>State<input type="text" name="state" length="2" class="form-control"></label>
+          <label>Zip<input type="text" name="postalcode" class="form-control"></label>
+          <input type="hidden" name="country" value="US">
+          <div class="form-group">
+            <button type="button" class="btn btn-default" aria-label="Map Address" id="map-address">
+              <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+            </button>
           </div>
-        </div>
-        <button type="button" class="btn btn-default" aria-label="Delete">
-          <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
-        </button>
+        </form>
       </div>
+    </div>
+  </div>
+  <div class="hidden">
+    <div class="address col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-body">
+
+        </div>
+      </div>
+      <button type="button" class="btn btn-default" aria-label="Delete">
+        <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
+      </button>
     </div>
   </div>
 </body>
