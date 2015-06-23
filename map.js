@@ -3,8 +3,6 @@ var learnSD = learnSD || {};
 (function() {
   var mapHandler = {
     initialize: function initialize() {
-      this.iconLocations = {}
-
       this.vectorSource = new ol.source.Vector({
       });
 
@@ -28,25 +26,20 @@ var learnSD = learnSD || {};
 
     redraw: function redraw() {
       var view = this.map.getView()
-      var locs = (Object.keys(this.iconLocations))
-      var locations = []
-      $(locs).each(function(i, x) {
-        var loc = x.split(',')
-        locations.push([Number(loc[0]), Number(loc[1])])
-      })
-      var extent = ol.extent.boundingExtent(locations)
+      var extent = this.vectorSource.getExtent()
       var size = this.map.getSize()
-      view.fitExtent(extent, size)
-      // If only one coordinate then binding map on that one point will produce
-      // a map that is zoomed in so close it will appear that no map is  displayed
-      // so we want to prevent the map zoom from going to high hence "if statement below"
-      if (view.getZoom() > 16) {
-        view.setZoom(16);
+      if (extent[0] != Infinity && extent[0] != Infinity) {
+        view.fitExtent(extent, size)
+        // If only one coordinate then binding map on that one point will produce
+        // a map that is zoomed in so close it will appear that no map is  displayed
+        // so we want to prevent the map zoom from going to high hence "if statement below"
+        if (view.getZoom() > 16) {
+          view.setZoom(16);
+        }
       }
     },
 
     removePin: function removePin(pin) {
-      delete this.iconLocations[pin.getGeometry().getCoordinates()]
       this.vectorSource.removeFeature(pin)
       this.redraw()
     },
@@ -68,7 +61,6 @@ var learnSD = learnSD || {};
 
 
       var iconLocation = ol.proj.transform([lon, lat], 'EPSG:4326', 'EPSG:3857')
-      this.iconLocations[iconLocation] = null
 
       var iconFeature = new ol.Feature({
         geometry: new ol.geom.Point(iconLocation),
