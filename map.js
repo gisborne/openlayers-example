@@ -28,7 +28,13 @@ var learnSD = learnSD || {};
 
     redraw: function redraw() {
       var view = this.map.getView()
-      var extent = ol.extent.boundingExtent(Object.keys(this.iconLocations))
+      var locs = (Object.keys(this.iconLocations))
+      var locations = []
+      $(locs).each(function(i, x) {
+        var loc = x.split(',')
+        locations.push([Number(loc[0]), Number(loc[1])])
+      })
+      var extent = ol.extent.boundingExtent(locations)
       var size = this.map.getSize()
       view.fitExtent(extent, size)
       // If only one coordinate then binding map on that one point will produce
@@ -42,6 +48,7 @@ var learnSD = learnSD || {};
     removePin: function removePin(pin) {
       delete this.iconLocations[pin.getGeometry().getCoordinates()]
       this.vectorSource.removeFeature(pin)
+      this.redraw()
     },
 
     addPin: function addPin(attributes) {
