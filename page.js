@@ -40,8 +40,13 @@ $(function() {
 
   function handleGeoCoded(data) {
     var result = data[0]
-    var addr = prettify(result.display_name)
-    displayMappedAddress(addr, result)
+    if (result) {
+      var addr = prettify(result.display_name)
+      displayMappedAddress(addr, result)
+      document.getElementById('address-form').reset()
+    } else {
+      alert('Unknown error')
+    }
   }
 
   function mapAddress() {
